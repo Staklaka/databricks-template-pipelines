@@ -1,0 +1,41 @@
+name: Deploy to noprod and run
+
+on:
+  pull_request:
+    types: [opened, reopened]
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: "Deploy bundle"
+    runs-on: ubuntu-latest
+    environment: no-prod
+
+    steps:
+      - uses: actions/checkout@v4  # Update to the latest version
+      - uses: databricks/setup-cli@main
+      - run: databricks bundle deploy
+        env:
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN_DEV }}
+          DATABRICKS_BUNDLE_ENV: no-prod
+
+  workflow_run:
+    name: "Job run for the workflow"
+    runs-on: ubuntu-latest
+    environment: no-prod
+
+    needs:
+      - deploy
+
+    steps:
+      - uses: actions/checkout@v4  # Update to the latest version
+      - uses: databricks/setup-cli@main
+      - shell: bash
+        name: Run pipeline update
+        run: |
+          databricks bundle run databricks_dab_test_main --refresh-all 2>&1 | tee output.log
+        env:
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN_DEV }}
+          DATABRICKS_BUNDLE_ENV: no-prod

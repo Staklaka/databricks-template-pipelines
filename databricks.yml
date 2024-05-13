@@ -1,0 +1,24 @@
+# This is a Databricks asset bundle definition for databricks_dab_test.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: databricks_dab_test
+
+include:
+  - resources/databricks_dab_test_main.yml
+
+targets:
+  # The 'no-prod' target, for development purposes. This target is the default.
+  no-prod:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-9a811fbb-c46c.cloud.databricks.com/
+
+
+  # The 'prod' target, used for production deployment.
+  prod:
+    mode: production
+    workspace:
+      host: https://dbc-9a811fbb-c46c.cloud.databricks.com/
+    run_as:
+      user_name: elmehdi.dakdak@tid-consultancy.com

@@ -1,0 +1,23 @@
+# The derived job for databricks_dab_test.
+resources:
+  jobs:
+    databricks_dab_test_derived:
+      name: databricks_dab_test_derived
+
+      email_notifications:
+        on_failure:
+          - elmehdi.dakdak@tid-consultancy.com
+
+      tasks:
+        - task_key: derived_task
+          job_cluster_key: databricks_dab_test_derived_job_cluster
+          spark_python_task:
+            python_file: /src/databricks_dab_test/derived/derived.py
+
+      job_clusters:
+        - job_cluster_key: databricks_dab_test_derived_job_cluster
+          new_cluster:
+            spark_version: 13.3.x-scala2.12
+            autoscale:
+                min_workers: 1
+                max_workers: 4
