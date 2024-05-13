@@ -19,7 +19,7 @@ setup(
     # to ensure that changes to wheel package are picked up when used on all-purpose clusters
     version=databricks_dab_test.__version__ + "+" + datetime.datetime.utcnow().strftime("%Y%m%d.%H%M%S"),
     url="https://databricks.com",
-    author="mouad.moussabbih.partner@decathlon.com",
+    author="elmehdi.dakdak@tid-consultancy.com",
     description="wheel file based on databricks_dab_test/src",
     packages=find_packages(where='./src'),
     package_dir={'': 'src'},
